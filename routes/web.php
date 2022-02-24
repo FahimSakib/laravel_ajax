@@ -20,3 +20,9 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('ajax', function () {
+    $data = "<h2>Changed with ajax/javascripts</h2>";
+    return response($data);
+});
