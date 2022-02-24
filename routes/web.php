@@ -21,8 +21,11 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+//ajax-js-practice:
 
 Route::get('ajax', function () {
     $data = "<h2>Changed with ajax/javascripts</h2>";
     return response($data);
 });
+
+Route::post('ajax-post','JavaScriptController@ajax_post')->name('ajax.post');
