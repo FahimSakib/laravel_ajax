@@ -29,6 +29,7 @@ Route::get('ajax', function () {
 });
 
 Route::post('ajax-post','JavaScriptController@ajax_post')->name('ajax.post');
+Route::get('javascript','JavaScriptController@index');
 
 Route::group(['prefix' => 'jquery' ,'as' => 'jquery.'], function(){
     Route::get('index','JqueryController@index')->name('ajax.index');

@@ -50,10 +50,8 @@
                         <div class="p-6">
                             <div class="flex items-center">
                                 <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-8 h-8 text-gray-500"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel.com/docs" class="underline text-gray-900 dark:text-white" id="demo">Documentation</a></div>    
+                                <div class="ml-4 text-lg leading-7 font-semibold"><a href="https://laravel.com/docs" class="underline text-gray-900 dark:text-white">Documentation</a></div>    
                             </div>
-                            <button class="btn btn-primary" type="button" onclick="OnClick()">Change</button>
-
                             <div class="ml-12">
                                 <div class="mt-2 text-gray-600 dark:text-gray-400 text-sm">
                                     Laravel has wonderful, thorough documentation covering every aspect of the framework. Whether you are new to the framework or have previous experience with Laravel, we recommend reading all of the documentation from beginning to end.
@@ -122,65 +120,12 @@
                             </a>
                         </div>
                     </div>
-
+                    
                     <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
                         Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
                     </div>
                 </div>
-                <div>
-                    <form method="post">
-                        <input type="text" name="name" id="name" class="form-control">
-                        <button type="button" class="btn btn-primary" onclick="ajaxPost()">Save</button>
-                    </form>
-                </div>
             </div>
         </div>
-        <script>
-            function OnClick(){
-                let req = new XMLHttpRequest();
-                req.open('GET','{{ url('ajax') }}',true);
-                req.send();
-
-                req.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                // Typical action to be performed when the document is ready:
-                document.getElementById("demo").innerHTML = req.responseText;
-                    }
-                }
-            }
-            // function AjaxPost(){
-            //     let name = document.getElementById('name').value;
-            //     if(name){
-            //         let req = new XMLHttpRequest();
-            //         req.open('POST','{{ url("ajax-post") }}',true);
-            //         req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            //         req.send('name='+name+'&_token={{ csrf_token() }}');
-
-            //         req.onreadystatechange = function() {
-            //         if (this.readyState == 4 && this.status == 200) {
-            //         // Typical action to be performed when the document is ready:
-            //         document.getElementById("demo").innerHTML = req.responseText;
-            //           }
-            //         }
-            //     }
-            // }
-                        function ajaxPost(){
-                    let name = document.getElementById('name').value;
-                    if(name){
-                        let req = new XMLHttpRequest();
-                        req.open('POST','{{route("ajax.post")}}',true);
-                        req.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                        req.send('name='+name+'&_token={{ csrf_token() }}');
-
-                        req.onreadystatechange = function(){
-                            console.log(req);
-                            if(req.readyState == 4 && req.status == 200){
-                                document.getElementById('demo').innerHTML = req.responseText;
-                            }
-                        }
-                    }
-                
-                }
-        </script>
     </body>
 </html>
