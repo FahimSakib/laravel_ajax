@@ -35,3 +35,5 @@ Route::group(['prefix' => 'jquery' ,'as' => 'jquery.'], function(){
     Route::get('ajax/get','JqueryController@ajax_get')->name('ajax.get');
     Route::post('ajax/post','JqueryController@ajax_post')->name('ajax.post');
 });
+
+Route::view('json','json');
