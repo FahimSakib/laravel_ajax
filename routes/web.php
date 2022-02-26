@@ -43,4 +43,5 @@ Route::view('json','json');
 
 //ajax-crud start:
 
-Route::view('crud','ajax-crud');
+
+Route::get('crud','CrudIndexController@index');

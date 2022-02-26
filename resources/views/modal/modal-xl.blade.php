@@ -11,8 +11,24 @@
                 @csrf
                 <div class="modal-body">
                     <div class="row">
-                        <x-textbox col="col-md-6" required="required" labelName="Name" name="name" placeholder="Enter your name" />
-                        <x-textbox col="col-md-6" type="email" required="required" labelName="Email" name="email" placeholder="Enter your email" />
+                        <x-textbox col="col-md-6" required="required" labelName="Name" name="name"
+                            placeholder="Enter your name" />
+                        <x-textbox col="col-md-6" type="email" required="required" labelName="Email" name="email"
+                            placeholder="Enter your email" />
+                        <x-selectbox col="col-md-6" required="required" labelName="Role" name="role_id">
+                            @if ($roles)
+                            @foreach ($roles as $role)
+                            <option value="{{ $role->id }}">{{ $role->role_name }}</option>
+                            @endforeach
+                            @endif
+                        </x-selectbox>
+                        <x-selectbox col="col-md-6" required="required" labelName="District" name="district_id">
+                            @if ($districts)
+                            @foreach ($districts as $district)
+                            <option value="{{ $district->id }}">{{ $district->location_name }}</option>
+                            @endforeach
+                            @endif
+                        </x-selectbox>
                     </div>
                 </div>
                 <div class="modal-footer">
