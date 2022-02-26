@@ -45,3 +45,4 @@ Route::view('json','json');
 
 
 Route::get('crud','CrudIndexController@index');
+Route::post('upazila-list','CrudIndexController@upazila_lsit')->name('upazila.list');

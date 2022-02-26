@@ -16,4 +16,19 @@ class CrudIndexController extends Controller
 
         return view('ajax-crud',compact('roles', 'districts'));
     }
+
+    public function upazila_lsit(Request $request){
+        if ($request->ajax()) {
+            if($request->district_id){
+                $output = '<option value="">Select Please</option>';
+                $upazilas = Location::where('parent_id', $request->district_id)->orderBy('location_name','asc')->get();
+                if($upazilas){
+                    foreach ($upazilas as $upazila) {
+                        $output .= '<option value="'.$upazila->id.'">'.$upazila->location_name.'</option>';
+                    }
+                }
+                return response()->json($output);
+            }
+        }
+    }
 }

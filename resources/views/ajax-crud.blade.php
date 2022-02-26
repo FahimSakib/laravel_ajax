@@ -47,6 +47,7 @@
 
 @push('script')
 <script>
+    let _token = "{{ csrf_token() }}";
     function showModal(title, save) {
         $("#saveDataModal").modal('toggle', {
             keyboard: false,
@@ -54,6 +55,27 @@
         });
         $("#saveDataModal .modal-title").text(title);
         $("#saveDataModal #modalBtn").text(save);
+    };
+
+    function upazilaList(district_id){
+        if(district_id){
+            $.ajax({
+                url:"{{ route('upazila.list') }}",
+                type:"POST",
+                data:{
+                    district_id:district_id,
+                    _token:_token
+                },
+                dataType:"JSON",
+                success:function(data){
+                    $('#upazila_id').html(''),
+                    $('#upazila_id').html(data)
+                },
+                error: function(xhr, ajaxOption, thrownError){
+                    console.log(thrownError+'\r\n'+xhr.statusText+'\r\n'+xhr.responseText);
+                }
+            });
+        };
     };
 
 </script>

@@ -22,13 +22,14 @@
                             @endforeach
                             @endif
                         </x-selectbox>
-                        <x-selectbox col="col-md-6" required="required" labelName="District" name="district_id">
+                        <x-selectbox col="col-md-6" required="required" labelName="District" name="district_id" onchange="upazilaList(this.value)">
                             @if ($districts)
                             @foreach ($districts as $district)
                             <option value="{{ $district->id }}">{{ $district->location_name }}</option>
                             @endforeach
                             @endif
                         </x-selectbox>
+                        <x-selectbox col="col-md-6" required="required" labelName="Upazila" name="upazila_id" />
                     </div>
                 </div>
                 <div class="modal-footer">
