@@ -40,3 +40,7 @@ Route::group(['prefix' => 'jquery' ,'as' => 'jquery.'], function(){
 Route::view('json','json');
 
 //end ajax-js-practice
+
+//ajax-crud start:
+
+Route::view('crud','ajax-crud');
