@@ -12,15 +12,36 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public const VALIDATION_ROLE = [
+        'role_id'               => ['required','integer'],
+        'name'                  => ['required','string'],
+        'email'                 => ['required','email','unique:users,email'],
+        'mobile_no'             => ['required','email','unique:users,mobile_no'],
+        'avatar'                => ['nullable','image','mimes:png,jpg,jpeg'],
+        'district_id'           => ['required','integer'],
+        'upazila_id'            => ['required','integer'],
+        'postal_code'           => ['required','numeric'],
+        'address'               => ['required','string'],
+        'password'              => ['required','string','confirmed','min:8'],
+        'password_confirmation' => ['required','string','min:8']
+    ];
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
+        'role_id',
         'name',
         'email',
+        'mobile_no',
+        'avatar',
+        'district_id',
+        'upazila_id',
+        'postal_code',
+        'address',
         'password',
+        'status'
     ];
 
     /**

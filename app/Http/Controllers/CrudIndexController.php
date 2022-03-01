@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserFormRequest;
 use App\Models\Location;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -17,8 +18,10 @@ class CrudIndexController extends Controller
         return view('ajax-crud',compact('roles', 'districts'));
     }
 
-    public function store(Request $request){
-        return $request->all();
+    public function store(UserFormRequest $request){
+
+        return $request->validated();
+        
     }
 
     public function upazila_lsit(Request $request){
