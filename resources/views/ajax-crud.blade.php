@@ -61,6 +61,10 @@
     let _token = "{{ csrf_token() }}";
 
     function showModal(title, save) {
+        $('#storeForm')[0].reset();
+        $('#storeForm').find('.is-invalid').removeClass('is-invalid');
+        $('#storeForm').find('.error').remove();
+        
         $("#saveDataModal").modal('toggle', {
             keyboard: false,
             backdrop: 'static',
@@ -87,10 +91,15 @@
             success:function (data) {
                 $('#storeForm').find('.is-invalid').removeClass('is-invalid');
                 $('#storeForm').find('.error').remove();
-               $.each(data.errors, function(key,value){
-                   $('#storeForm #'+key).addClass('is-invalid');
-                   $('#storeForm #'+key).parent().append('<div class="alert alert-danger mt-1 error">'+value+'</div>');
-               });
+                if(data.status == false){
+                   $.each(data.errors, function(key,value){
+                        $('#storeForm #'+key).addClass('is-invalid');
+                        $('#storeForm #'+key).parent().append('<div class="alert alert-danger mt-1 error">'+value+'</div>');
+                    });
+                }else{
+                    console.log(data.status);
+                    $("#saveDataModal").modal('hide');
+                }              
             },
             error:function (xhr, ajaxOption, thrownError) {
                 console.log(thrownError+'\r\n'+xhr.statusText+'\r\n'+xhr.responseText);

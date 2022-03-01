@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserFormRequest;
 use App\Models\Location;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CrudIndexController extends Controller
@@ -20,7 +21,15 @@ class CrudIndexController extends Controller
 
     public function store(UserFormRequest $request){
 
-        return $request->validated();
+        $data = $request->validated();
+        $result = User::updateOrCreate(['id' => $request->update_id],$data);
+
+        if ($result) {
+            $output = ['status' => 'success', 'message' => 'data has been saved successfully'];
+        }else{
+            $output = ['status' => 'error', 'message' => 'data can not save'];
+        }
+        return response()->json($output);
         
     }
 
