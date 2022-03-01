@@ -15,6 +15,8 @@
                             placeholder="Enter your name" />
                         <x-textbox col="col-md-6" type="email" required="required" labelName="Email" name="email"
                             placeholder="Enter your email" />
+                        <x-textbox col="col-md-6" required="required" labelName="Mobile Number" name="mobile_no"
+                            placeholder="Enter your mobile number" />
                         <x-selectbox col="col-md-6" required="required" labelName="Role" name="role_id">
                             @if ($roles)
                             @foreach ($roles as $role)
@@ -22,7 +24,8 @@
                             @endforeach
                             @endif
                         </x-selectbox>
-                        <x-selectbox col="col-md-6" required="required" labelName="District" name="district_id" onchange="upazilaList(this.value)">
+                        <x-selectbox col="col-md-6" required="required" labelName="District" name="district_id"
+                            onchange="upazilaList(this.value)">
                             @if ($districts)
                             @foreach ($districts as $district)
                             <option value="{{ $district->id }}">{{ $district->location_name }}</option>
