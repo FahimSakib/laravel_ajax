@@ -85,7 +85,12 @@
             processData:false,
             cache:false,
             success:function (data) {
-               console.log(data);
+                $('#storeForm').find('.is-invalid').removeClass('is-invalid');
+                $('#storeForm').find('.error').remove();
+               $.each(data.errors, function(key,value){
+                   $('#storeForm #'+key).addClass('is-invalid');
+                   $('#storeForm #'+key).parent().append('<div class="alert alert-danger mt-1 error">'+value+'</div>');
+               });
             },
             error:function (xhr, ajaxOption, thrownError) {
                 console.log(thrownError+'\r\n'+xhr.statusText+'\r\n'+xhr.responseText);

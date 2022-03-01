@@ -4,9 +4,21 @@ namespace App\Http\Requests;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UserFormRequest extends FormRequest
 {
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'status' => false,
+                'errors' => $validator->errors()
+            ])
+        );
+    }
     /**
      * Determine if the user is authorized to make this request.
      *
