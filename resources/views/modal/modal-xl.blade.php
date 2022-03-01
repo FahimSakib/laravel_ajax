@@ -7,7 +7,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form method="post">
+            <form method="post" id="storeForm">
                 @csrf
                 <div class="modal-body">
                     <div class="row">
@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="modalBtn"></button>
+                    <button type="button" class="btn btn-primary" id="save-btn"></button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </form>

@@ -46,3 +46,7 @@ Route::view('json','json');
 
 Route::get('crud','CrudIndexController@index');
 Route::post('upazila-list','CrudIndexController@upazila_lsit')->name('upazila.list');
+
+Route::group(['prefix' => 'user', 'as' => 'user.'], function(){
+    Route::post('store','CrudIndexController@store')->name('store');
+});

@@ -17,6 +17,10 @@ class CrudIndexController extends Controller
         return view('ajax-crud',compact('roles', 'districts'));
     }
 
+    public function store(Request $request){
+        return $request->all();
+    }
+
     public function upazila_lsit(Request $request){
         if ($request->ajax()) {
             if($request->district_id){
