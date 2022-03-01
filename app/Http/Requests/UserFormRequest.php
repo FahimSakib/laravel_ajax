@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\User;
+use App\Rules\ValidMobileNumber;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -42,6 +43,8 @@ class UserFormRequest extends FormRequest
             $rules['email'][2] = 'unique:users,email,'.request()->update_id;
             $rules['mobile_no'][2] = 'unique:users,mobile_no,'.request()->update_id;
         }
+
+        $rules['mobile_no'][2] = new ValidMobileNumber;
 
         return $rules;
     }

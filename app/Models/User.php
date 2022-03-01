@@ -16,7 +16,7 @@ class User extends Authenticatable
         'role_id'               => ['required','integer'],
         'name'                  => ['required','string'],
         'email'                 => ['required','email','unique:users,email'],
-        'mobile_no'             => ['required','numeric','unique:users,mobile_no'],
+        'mobile_no'             => ['required','unique:users,mobile_no'],
         'avatar'                => ['nullable','image','mimes:png,jpg,jpeg'],
         'district_id'           => ['required','integer'],
         'upazila_id'            => ['required','integer'],
