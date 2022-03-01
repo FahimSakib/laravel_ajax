@@ -45,6 +45,16 @@
 @include('modal.modal-xl')
 @endsection
 
+@push('style')
+<style>
+    .required label:first-child::after{
+        content: "* ";
+        color: red;
+        font-weight: bold;
+    }
+</style>
+@endpush
+
 @push('script')
 <script>
     let _token = "{{ csrf_token() }}";
