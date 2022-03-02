@@ -4,7 +4,6 @@ namespace App\Traits;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Mockery\Generator\StringManipulation\Pass\Pass;
 
 trait Uploadable{
 
@@ -18,7 +17,7 @@ trait Uploadable{
      * *********************/
 
     public function upload_file(UploadedFile $file,$folder=null,$file_name=null,$disk='public'){
-        
+
         if(!Storage::directories($disk.'/'.$folder)){
             Storage::makeDirectory($disk.'/'.$folder,0777,true);
         }
