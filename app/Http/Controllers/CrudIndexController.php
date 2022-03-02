@@ -48,6 +48,12 @@ class CrudIndexController extends Controller
         
     }
 
+    public function userList(Request $request){
+        if($request->ajax()){
+            dd($request->all());
+        }
+    }
+
     public function upazila_lsit(Request $request){
         if ($request->ajax()) {
             if($request->district_id){

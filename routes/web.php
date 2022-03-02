@@ -49,4 +49,5 @@ Route::post('upazila-list','CrudIndexController@upazila_lsit')->name('upazila.li
 
 Route::group(['prefix' => 'user', 'as' => 'user.'], function(){
     Route::post('store','CrudIndexController@store')->name('store');
+    Route::post('list','CrudIndexController@userList')->name('list');
 });

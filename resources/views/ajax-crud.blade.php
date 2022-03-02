@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="card-body">
-                    <table class="table table-bordered table-dark">
+                    <table class="table table-bordered" id="dataTable">
                         <thead>
                             <th>SL</th>
                             <th>Name</th>
@@ -46,6 +46,7 @@
 @endsection
 
 @push('style')
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <link rel="stylesheet" href="{{ asset('css/dropify.min.css') }}">
 <style>
@@ -58,11 +59,44 @@
 @endpush
 
 @push('script')
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{ asset('js/dropify.min.js') }}"></script>
 <script >
 
     let _token = "{{ csrf_token() }}";
+
+    var table;
+
+    $(document).ready(function(){
+    table = $('#dataTable').DataTable({
+                "processing":true,
+                "serverSide":true,
+                "order":[],
+                "responsive":true,
+                "bInfo":true,
+                "bFilter":false,
+                "lengthMenu":[
+                    [5,10,15,25,50,100,1000,10000,-1],
+                    [5,10,15,25,50,100,1000,10000,"All"]
+                ],
+                "pageLength":5,
+                "language":{
+                    processing:'<img src="" alt="loading icon" />',
+                    emptyTable:'<strong class="text-danger>No data Found</strong>',
+                    infoEmpty:'',
+                    zeroRecords:'<strong class="text-danger>No data Found</strong>'
+                },
+                "ajax":{
+                    "url":"{{ route('user.list') }}",
+                    "type":"POST",
+                    "data":function(data){
+                        data._token=_token;
+                    }
+                }
+            });
+    });
+    
 
     $('.dropify').dropify();
 
