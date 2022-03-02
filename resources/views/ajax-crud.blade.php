@@ -69,7 +69,7 @@
     var table;
 
     $(document).ready(function(){
-    table = $('#dataTable').DataTable({
+    table = $('#dataTable').dataTable({
                 "processing":true,
                 "serverSide":true,
                 "order":[],

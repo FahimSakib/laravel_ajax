@@ -45,6 +45,18 @@ class User extends Authenticatable
         'status'
     ];
 
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
+
+    public function district(){
+        return $this->belongsTo(Location::class,'district_id','id');
+    }
+
+    public function upazila(){
+        return $this->belongsTo(Location::class,'upazila_id','id');
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -67,4 +79,47 @@ class User extends Authenticatable
     public function setPasswordAttribute($value){
         $this->attributes['password'] = Hash::make($value);
     }
+
+    private $order = array('id'=>'desc');
+    private $column_order;
+    private $orderValue;
+    private $dirValue;
+    private $lengthValue;
+    private $startValue;
+
+    public function setOrderValue($orderValue){
+        $this->orderValue = $orderValue;
+    }
+    public function setDirValue($dirValue){
+        $this->dirValue = $dirValue;
+    }
+    public function setLengthValue($lengthValue){
+        $this->lengthValue = $lengthValue;
+    }
+    public function setStartValue($startValue){
+        $this->startValue = $startValue;
+    }
+
+    private function get_datatable_query(){
+        $query = self::with('role','district','upazila');
+        return $query;
+    }
+
+    public function getList(){
+        $query = $this->get_datatable_query();
+        if($this->lengthValue != -1){
+            $query->offset($this->startValue)->limit($this->lengthValue);
+        }
+        return $query->get();
+    }
+
+    public function count_filtered(){
+        $query = $this->get_datatable_query();
+        return$query->get()->count();
+    }
+
+    public function count_all(){
+        return self::toBase()->get()->count(); 
+    }
+
 }

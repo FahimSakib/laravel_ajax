@@ -50,7 +50,14 @@ class CrudIndexController extends Controller
 
     public function userList(Request $request){
         if($request->ajax()){
-            dd($request->all());
+            $user = new User();
+
+            $user->setOrderValue($request->input('order.0.column'));
+            $user->setDirValue($request->input('order.0.dir'));
+            $user->setLengthValue($request->input('length'));
+            $user->setStartValue($request->input('start'));
+
+            $list = $user->getList();
         }
     }
 
