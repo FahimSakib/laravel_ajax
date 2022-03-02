@@ -6,10 +6,13 @@ use App\Http\Requests\UserFormRequest;
 use App\Models\Location;
 use App\Models\Role;
 use App\Models\User;
+use App\Traits\Uploadable;
 use Illuminate\Http\Request;
 
 class CrudIndexController extends Controller
 {
+    use Uploadable;
+     
     public function index(){
 
         $roles = Role::get();
@@ -22,7 +25,19 @@ class CrudIndexController extends Controller
     public function store(UserFormRequest $request){
 
         $data = $request->validated();
-        $result = User::updateOrCreate(['id' => $request->update_id],$data);
+
+        $collection = collect($data)->except(['avatar','password_confirmation']);
+        
+        if(request()->file('avatar')){
+
+            $user_avatar_name = str_replace(' ', '', request()->name).'_'.uniqid();
+
+            $avatar = $this->upload_file(request()->file('avatar'),'User',$user_avatar_name);
+            
+            $collection = $collection->merge(compact('avatar'));
+        }
+
+        $result = User::updateOrCreate(['id' => $request->update_id],$collection->all());
 
         if ($result) {
             $output = ['status' => 'success', 'message' => 'data has been saved successfully'];

@@ -23,9 +23,9 @@ trait Uploadable{
         }
 
         $fileNameWithExtension = $file->getClientOriginalName();
-        $fileName              = pathinfo($fileNameWithExtension,PATHINFO_EXTENSION);
+        $fileName              = pathinfo($fileNameWithExtension,PATHINFO_FILENAME);
         $extension             = $file->getClientOriginalExtension();
-        $fileNameToStore       = !is_null($file_name) ? $file_name.'.'.$extension : $fileName.uniqid().'.'.$extension;
+        $fileNameToStore       = !is_null($file_name) ? $file_name.'.'.$extension : $fileName.'_'.uniqid().'.'.$extension;
 
         $file->storeAs($folder,$fileNameToStore,$disk);
 

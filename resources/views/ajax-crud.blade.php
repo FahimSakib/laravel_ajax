@@ -70,6 +70,7 @@
         $('#storeForm')[0].reset();
         $('#storeForm').find('.is-invalid').removeClass('is-invalid');
         $('#storeForm').find('.error').remove();
+        $('.dropify-clear').trigger('click');
 
         $("#saveDataModal").modal('toggle', {
             keyboard: false,
