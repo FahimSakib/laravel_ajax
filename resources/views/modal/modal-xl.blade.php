@@ -50,6 +50,7 @@
                                 @endforeach
                                 @endif
                             </x-selectbox>
+                            <input type="file" class="dropify" name="avatar" id="avatar" data-errors-position="outside" data-allowed-file-extensions="png jpeg jpg" data-max-file-size="1M">
                         </div>
                     </div>
                 </div>

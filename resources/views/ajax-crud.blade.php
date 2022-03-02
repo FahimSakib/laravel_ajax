@@ -47,6 +47,7 @@
 
 @push('style')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<link rel="stylesheet" href="{{ asset('css/dropify.min.css') }}">
 <style>
     .required label:first-child::after {
         content: "* ";
@@ -58,9 +59,12 @@
 
 @push('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script src="{{ asset('js/dropify.min.js') }}"></script>
 <script >
 
     let _token = "{{ csrf_token() }}";
+
+    $('.dropify').dropify();
 
     function showModal(title, save) {
         $('#storeForm')[0].reset();
