@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
@@ -18,25 +18,28 @@
                 </div>
 
                 <div class="card-body">
-                    <table class="table table-bordered" id="dataTable">
-                        <thead>
-                            <th>SL</th>
-                            <th>Name</th>
-                            <th>Image</th>
-                            <th>Role</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Disctrict</th>
-                            <th>Upazila</th>
-                            <th>Postal Code</th>
-                            <th>Verified Email</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-bordered" id="dataTable">
+                                <thead>
+                                    <th>SL</th>
+                                    <th>Name</th>
+                                    <th>Image</th>
+                                    <th>Role</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Disctrict</th>
+                                    <th>Upazila</th>
+                                    <th>Postal Code</th>
+                                    <th>Verified Email</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -46,7 +49,7 @@
 @endsection
 
 @push('style')
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <link rel="stylesheet" href="{{ asset('css/dropify.min.css') }}">
 <style>
@@ -55,48 +58,49 @@
         color: red;
         font-weight: bold;
     }
+
 </style>
 @endpush
 
 @push('script')
+<script src="https://kit.fontawesome.com/92da958448.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{ asset('js/dropify.min.js') }}"></script>
-<script >
-
+<script>
     let _token = "{{ csrf_token() }}";
 
     var table;
 
-    $(document).ready(function(){
-    table = $('#dataTable').DataTable({
-                "processing":true,
-                "serverSide":true,
-                "order":[],
-                "responsive":true,
-                "bInfo":true,
-                "bFilter":false,
-                "lengthMenu":[
-                    [5,10,15,25,50,100,1000,10000,-1],
-                    [5,10,15,25,50,100,1000,10000,"All"]
-                ],
-                "pageLength":5,
-                "language":{
-                    processing:`<img src="{{ asset('storage/svg/Swing-Preloader.svg') }}" alt="loading icon" />`,
-                    emptyTable:'<strong class="text-danger>No data Found</strong>',
-                    infoEmpty:'',
-                    zeroRecords:'<strong class="text-danger>No data Found</strong>'
-                },
-                "ajax":{
-                    "url":"{{ route('user.list') }}",
-                    "type":"POST",
-                    "data":function(data){
-                        data._token=_token;
-                    }
+    $(document).ready(function () {
+        table = $('#dataTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "responsive": true,
+            "bInfo": true,
+            "bFilter": false,
+            "lengthMenu": [
+                [5, 10, 15, 25, 50, 100, 1000, 10000, -1],
+                [5, 10, 15, 25, 50, 100, 1000, 10000, "All"]
+            ],
+            "pageLength": 5,
+            "language": {
+                processing: `<img src="{{ asset('storage/svg/Swing-Preloader.svg') }}" alt="loading icon" />`,
+                emptyTable: '<strong class="text-danger>No data Found</strong>',
+                infoEmpty: '',
+                zeroRecords: '<strong class="text-danger>No data Found</strong>'
+            },
+            "ajax": {
+                "url": "{{ route('user.list') }}",
+                "type": "POST",
+                "data": function (data) {
+                    data._token = _token;
                 }
-            });
+            }
+        });
     });
-    
+
 
     $('.dropify').dropify();
 
@@ -122,28 +126,29 @@
 
     function store_form_data(formData) {
         $.ajax({
-            url:"{{ route('user.store') }}",
-            type:"POST",
-            data:formData,
-            dataType:"JSON",
-            contentType:false,
-            processData:false,
-            cache:false,
-            success:function (data) {
+            url: "{{ route('user.store') }}",
+            type: "POST",
+            data: formData,
+            dataType: "JSON",
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: function (data) {
                 $('#storeForm').find('.is-invalid').removeClass('is-invalid');
                 $('#storeForm').find('.error').remove();
-                if(data.status == false){
-                   $.each(data.errors, function(key,value){
-                        $('#storeForm #'+key).addClass('is-invalid');
-                        $('#storeForm #'+key).parent().append('<div class="alert alert-danger mt-1 error">'+value+'</div>');
+                if (data.status == false) {
+                    $.each(data.errors, function (key, value) {
+                        $('#storeForm #' + key).addClass('is-invalid');
+                        $('#storeForm #' + key).parent().append(
+                            '<div class="alert alert-danger mt-1 error">' + value + '</div>');
                     });
-                }else{
-                    flashMessage(data.status,data.message);
+                } else {
+                    flashMessage(data.status, data.message);
                     $("#saveDataModal").modal('hide');
-                }              
+                }
             },
-            error:function (xhr, ajaxOption, thrownError) {
-                console.log(thrownError+'\r\n'+xhr.statusText+'\r\n'+xhr.responseText);
+            error: function (xhr, ajaxOption, thrownError) {
+                console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
             }
         });
     }
@@ -163,13 +168,13 @@
                         $('#upazila_id').html(data)
                 },
                 error: function (xhr, ajaxOption, thrownError) {
-                    console.log(thrownError+'\r\n'+xhr.statusText+'\r\n'+xhr.responseText);
+                    console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
                 }
             });
         };
     };
 
-    function flashMessage(status,message){
+    function flashMessage(status, message) {
         toastr.options = {
             "closeButton": true,
             "debug": false,

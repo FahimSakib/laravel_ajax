@@ -64,12 +64,12 @@ class CrudIndexController extends Controller
             foreach ($list as $value) {
                 $no++;
                 $action ='';
-                $action .='<a class="dropdown-item">Edit</a>';
-                $action .='<a class="dropdown-item">View</a>';
-                $action .='<a class="dropdown-item">Delete</a>';
+                $action .='<a class="dropdown-item data_edit" data-id="'.$value->id.'"><i class="fa-solid fa-pen-to-square"></i> Edit</a>';
+                $action .='<a class="dropdown-item data_view" data-id="'.$value->id.'"><i class="fa-solid fa-eye"></i> View</a>';
+                $action .='<a class="dropdown-item data_delete" data-id="'.$value->id.'"><i class="fa-solid fa-trash"></i> Delete</a>';
                 $btnGroup = '<div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Action
+                <i class="fa-solid fa-list-ul"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 '.$action.'
@@ -86,8 +86,8 @@ class CrudIndexController extends Controller
               $row[] = $value->district->location_name;
               $row[] = $value->upazila->location_name;
               $row[] = $value->postal_code;
-              $row[] = $value->email_verified_at;
-              $row[] = $value->status;
+              $row[] = $value->email_verified_at ? '<span class="badge bg-success">Verified</span>' : '<span class="badge bg-danger">Unverified</span>';
+              $row[] = $value->status == 1 ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>';
               $row[] = $btnGroup;
 
               $data[] = $row;
