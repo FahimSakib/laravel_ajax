@@ -69,7 +69,7 @@
     var table;
 
     $(document).ready(function(){
-    table = $('#dataTable').dataTable({
+    table = $('#dataTable').DataTable({
                 "processing":true,
                 "serverSide":true,
                 "order":[],
@@ -82,7 +82,7 @@
                 ],
                 "pageLength":5,
                 "language":{
-                    processing:'<img src="" alt="loading icon" />',
+                    processing:`<img src="{{ asset('storage/svg/Swing-Preloader.svg') }}" alt="loading icon" />`,
                     emptyTable:'<strong class="text-danger>No data Found</strong>',
                     infoEmpty:'',
                     zeroRecords:'<strong class="text-danger>No data Found</strong>'

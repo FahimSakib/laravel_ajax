@@ -115,7 +115,7 @@ class User extends Authenticatable
 
     public function count_filtered(){
         $query = $this->get_datatable_query();
-        return$query->get()->count();
+        return $query->get()->count();
     }
 
     public function count_all(){

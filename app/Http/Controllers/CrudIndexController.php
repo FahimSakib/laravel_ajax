@@ -58,7 +58,53 @@ class CrudIndexController extends Controller
             $user->setStartValue($request->input('start'));
 
             $list = $user->getList();
+
+            $data = [];
+            $no   = $request->input('start');
+            foreach ($list as $value) {
+                $no++;
+                $action ='';
+                $action .='<a class="dropdown-item">Edit</a>';
+                $action .='<a class="dropdown-item">View</a>';
+                $action .='<a class="dropdown-item">Delete</a>';
+                $btnGroup = '<div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Action
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                '.$action.'
+                </div>
+                </div>';
+
+              $row = [];
+              $row[] = $no;
+              $row[] = $value->name;
+              $row[] = $this->avatar($value->avatar,$value->name);
+              $row[] = $value->role->role_name;
+              $row[] = $value->email;
+              $row[] = $value->mobile_no;
+              $row[] = $value->district->location_name;
+              $row[] = $value->upazila->location_name;
+              $row[] = $value->postal_code;
+              $row[] = $value->email_verified_at;
+              $row[] = $value->status;
+              $row[] = $btnGroup;
+
+              $data[] = $row;
+            }
+            $output = array(
+                "draw"=>request()->input('draw'),
+                "recordsTotal"=>$user->count_all(),
+                "recordsFiltered"=>$user->count_filtered(),
+                "data"=>$data
+            );
+
+            echo json_encode($output);
         }
+    }
+
+    private function avatar($avatar=null,$name){
+        return !empty($avatar) ? '<img src="'.asset("storage/User/".$avatar).'" alt="'.$name.'" style="width:60px" />' : '<p>no image found</p>';
     }
 
     public function upazila_lsit(Request $request){
