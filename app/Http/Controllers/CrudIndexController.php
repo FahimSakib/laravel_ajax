@@ -107,6 +107,13 @@ class CrudIndexController extends Controller
         return !empty($avatar) ? '<img src="'.asset("storage/User/".$avatar).'" alt="'.$name.'" style="width:60px" />' : '<p>no image found</p>';
     }
 
+    public function userEdit(Request $request){
+        if($request->ajax()){
+            $user = User::find($request->id);
+            return response()->json($user);
+        }
+    }
+
     public function upazila_lsit(Request $request){
         if ($request->ajax()) {
             if($request->district_id){

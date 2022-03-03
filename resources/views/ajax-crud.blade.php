@@ -153,6 +153,27 @@
         });
     }
 
+    $(document).on('click','.data_edit',function(){
+        let id = $(this).data('id');
+        if (id) {
+            $.ajax({
+                url: "{{ route('user.edit') }}",
+                type: "POST",
+                data: {
+                    id: id,
+                    _token: _token
+                },
+                dataType: "JSON",
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (xhr, ajaxOption, thrownError) {
+                    console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
+                }
+            });
+        };
+    });
+
     function upazilaList(district_id) {
         if (district_id) {
             $.ajax({
