@@ -58,7 +58,6 @@
         color: red;
         font-weight: bold;
     }
-
 </style>
 @endpush
 
@@ -106,6 +105,8 @@
 
     function showModal(title, save) {
         $('#storeForm')[0].reset();
+        $('.password').parent().removeClass('d-none');
+        $('.password_confirmation').parent().removeClass('d-none');
         $('#storeForm').find('.is-invalid').removeClass('is-invalid');
         $('#storeForm').find('.error').remove();
         $('.dropify-clear').trigger('click');
@@ -121,12 +122,20 @@
     $(document).on('click', '#save-btn', function () {
         let storeForm = document.getElementById('storeForm');
         let formData = new FormData(storeForm);
-        store_form_data(formData);
+        let url = "{{ route('user.store') }}";
+        let id = $('#update_id').val();
+        let method;
+        if(id){
+            method = 'update';
+        }else{
+            method = 'add';
+        }
+        store_form_data(table,method,url,formData);
     });
 
-    function store_form_data(formData) {
+    function store_form_data(table,method,url,formData) {
         $.ajax({
-            url: "{{ route('user.store') }}",
+            url: url,
             type: "POST",
             data: formData,
             dataType: "JSON",
@@ -144,7 +153,14 @@
                     });
                 } else {
                     flashMessage(data.status, data.message);
-                    $("#saveDataModal").modal('hide');
+                    if(data.status == 'success'){
+                        if(method == 'update'){
+                            table.ajax.reload(null,false);
+                            }else{
+                                table.ajax.reload();
+                            }
+                            $("#saveDataModal").modal('hide');
+                    }
                 }
             },
             error: function (xhr, ajaxOption, thrownError) {
@@ -165,7 +181,33 @@
                 },
                 dataType: "JSON",
                 success: function (data) {
-                    console.log(data);
+                    $('.password').parent().addClass('d-none');
+                    $('.password_confirmation').parent().addClass('d-none');
+                    $('#storeForm #update_id').val(data.id);
+                    $('#storeForm #name').val(data.name);
+                    $('#storeForm #email').val(data.email);
+                    $('#storeForm #mobile_no').val(data.mobile_no);
+                    $('#storeForm #mobile_no').val(data.mobile_no);
+                    $('#storeForm #district_id').val(data.district_id);
+                    upazilaList(data.district_id);
+                    setTimeout(() => {
+                        $('#storeForm #upazila_id').val(data.upazila_id);
+                    }, 1000);
+                    $('#storeForm #postal_code').val(data.postal_code);
+                    $('#storeForm #address').val(data.address);
+                    $('#storeForm #role_id').val(data.role_id);
+                    if(data.avatar){
+                        let avatar = "{{ asset('storage/User') }}/"+data.avatar;
+                        $('#storeForm .dropify-preview').css('display','block');
+                        $('#storeForm .dropify-render').html('<img src="'+avatar+'"/>');
+                        $('#storeForm #old_avatar').val(data.avatar);
+                    }
+                    $("#saveDataModal").modal('toggle', {
+                        keyboard: false,
+                        backdrop: 'static',
+                    });
+                    $("#saveDataModal .modal-title").html('<i class="fa-solid fa-pen-to-square"></i><span> Edit '+data.name+'\'s data</span>');
+                    $("#saveDataModal #save-btn").text('Update');
                 },
                 error: function (xhr, ajaxOption, thrownError) {
                     console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);

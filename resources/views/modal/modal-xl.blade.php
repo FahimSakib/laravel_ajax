@@ -9,7 +9,7 @@
             </div>
             <form method="post" id="storeForm" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="update_id" id="update_id">
+                <input type="number" class="d-none" name="update_id" id="update_id">
                 <div class="modal-body">
                     <div class="row">
                         <div class="row">
@@ -52,6 +52,7 @@
                             </x-selectbox>
                             <input type="file" class="dropify" name="avatar" id="avatar" data-errors-position="outside"
                                 data-allowed-file-extensions="png jpeg jpg" data-max-file-size="1M">
+                                <input type="text" class="d-none" name="old_avatar" id="old_avatar">
                         </div>
                     </div>
                 </div>

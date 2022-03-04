@@ -22,9 +22,7 @@ class User extends Authenticatable
         'district_id'           => ['required','integer'],
         'upazila_id'            => ['required','integer'],
         'postal_code'           => ['required','numeric'],
-        'address'               => ['required','string'],
-        'password'              => ['required','string','confirmed','min:8'],
-        'password_confirmation' => ['required','string','min:8']
+        'address'               => ['required','string']
     ];
     /**
      * The attributes that are mass assignable.

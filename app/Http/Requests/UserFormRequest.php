@@ -41,7 +41,10 @@ class UserFormRequest extends FormRequest
 
         if(request()->update_id){
             $rules['email'][2] = 'unique:users,email,'.request()->update_id;
-            $rules['mobile_no'][2] = 'unique:users,mobile_no,'.request()->update_id;
+            $rules['mobile_no'][1] = 'unique:users,mobile_no,'.request()->update_id;
+        }else{
+            $rules['password']            = ['required','string','confirmed','min:8'];
+            $rules['password_confirmation'] = ['required','string','min:8'];
         }
 
         $rules['mobile_no'][2] = new ValidMobileNumber;

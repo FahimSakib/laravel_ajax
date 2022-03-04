@@ -31,4 +31,12 @@ trait Uploadable{
 
         return $fileNameToStore;
     }
+
+    public function delete_file($file_name,$folder,$disk='public'){
+        if(Storage::exists($disk.'/'.$folder.'/'.$file_name)){
+            Storage::disk($disk)->delete($folder.'/'.$file_name);
+            return true;
+        }
+        return false;
+    }
 }

@@ -35,6 +35,9 @@ class CrudIndexController extends Controller
             $avatar = $this->upload_file(request()->file('avatar'),'User',$user_avatar_name);
             
             $collection = $collection->merge(compact('avatar'));
+            if(!empty($request->old_avatar)){
+                $this->delete_file($request->old_avatar,'User');
+            }
         }
 
         $result = User::updateOrCreate(['id' => $request->update_id],$collection->all());
@@ -42,6 +45,10 @@ class CrudIndexController extends Controller
         if ($result) {
             $output = ['status' => 'success', 'message' => 'data has been saved successfully'];
         }else{
+            if(!empty($avatar)){
+                $this->delete_file($avatar,'User');
+            }
+            
             $output = ['status' => 'error', 'message' => 'data can not save'];
         }
         return response()->json($output);
