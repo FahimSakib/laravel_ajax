@@ -72,6 +72,6 @@
     @if (!empty($user->avatar))
     <img src="{{ asset('storage/User/'.$user->avatar) }}" alt="{{ $user->name }}" style="width: 250px">
     @else
-        <p>not found</p>
+        <p>Image not available</p>
     @endif
 </div>
