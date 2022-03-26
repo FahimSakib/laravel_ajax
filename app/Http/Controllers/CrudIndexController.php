@@ -120,6 +120,16 @@ class CrudIndexController extends Controller
             return response()->json($user);
         }
     }
+    public function userShow(Request $request){
+        if($request->ajax()){
+            $user = User::with('role','district','upazila')->find($request->id);
+            if ($user) {
+                $output['user_view'] = view('user-view',compact('user'))->render();
+                $output['name'] = $user->name;
+            }
+            return response()->json($output);
+        }
+    }
 
     public function upazila_lsit(Request $request){
         if ($request->ajax()) {

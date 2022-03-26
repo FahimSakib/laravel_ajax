@@ -46,6 +46,7 @@
     </div>
 </div>
 @include('modal.modal-xl')
+@include('modal.modal-user-view')
 @endsection
 
 @push('style')
@@ -208,6 +209,34 @@
                     });
                     $("#saveDataModal .modal-title").html('<i class="fa-solid fa-pen-to-square"></i><span> Edit '+data.name+'\'s data</span>');
                     $("#saveDataModal #save-btn").text('Update');
+                },
+                error: function (xhr, ajaxOption, thrownError) {
+                    console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
+                }
+            });
+        };
+    });
+
+    $(document).on('click','.data_view',function(){
+        let id = $(this).data('id');
+        if (id) {
+            $.ajax({
+                url: "{{ route('user.show') }}",
+                type: "POST",
+                data: {
+                    id: id,
+                    _token: _token
+                },
+                dataType: "JSON",
+                success: function (data) {
+                    $('#view_data').html('');
+                    $('#view_data').html(data.user_view);
+                    
+                    $("#viewDataModal").modal('toggle', {
+                        keyboard: false,
+                        backdrop: 'static',
+                    });
+                    $("#viewDataModal .modal-title").html('<i class="fa-solid fa-eye"></i><span> '+data.name+'\'s data</span>');
                 },
                 error: function (xhr, ajaxOption, thrownError) {
                     console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);

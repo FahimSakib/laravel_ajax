@@ -51,4 +51,5 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function(){
     Route::post('store','CrudIndexController@store')->name('store');
     Route::post('list','CrudIndexController@userList')->name('list');
     Route::post('edit','CrudIndexController@userEdit')->name('edit');
+    Route::post('show','CrudIndexController@userShow')->name('show');
 });
