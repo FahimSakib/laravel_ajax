@@ -73,7 +73,7 @@ class CrudIndexController extends Controller
                 $action ='';
                 $action .='<a class="dropdown-item data_edit" data-id="'.$value->id.'"><i class="fa-solid fa-pen-to-square"></i> Edit</a>';
                 $action .='<a class="dropdown-item data_view" data-id="'.$value->id.'"><i class="fa-solid fa-eye"></i> View</a>';
-                $action .='<a class="dropdown-item data_delete" data-id="'.$value->id.'"><i class="fa-solid fa-trash"></i> Delete</a>';
+                $action .='<a class="dropdown-item data_delete" data-id="'.$value->id.'" data-name="'.$value->name.'"><i class="fa-solid fa-trash"></i> Delete</a>';
                 $btnGroup = '<div class="dropdown">
                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fa-solid fa-list-ul"></i>
@@ -120,9 +120,28 @@ class CrudIndexController extends Controller
             return response()->json($user);
         }
     }
-    public function userShow(Request $request){
+    
+    public function userDestroy(Request $request){
         if($request->ajax()){
             $user = User::with('role','district','upazila')->find($request->id);
+            if ($user) {
+                $avatar = $user->avatar;
+                if($user->delete()){
+                    if(!empty($avatar)){
+                        $this->delete_file($avatar,'User');
+                    }
+                    $output = ['status' => 'success', 'message' => 'data has been deleted successfully'];
+                }else{
+                    $output = ['status' => 'error', 'message' => 'data can\'t be deleted'];
+                }
+            }
+            return response()->json($output);
+        }
+    }
+
+    public function userShow(Request $request){
+        if($request->ajax()){
+            $user = User::find($request->id);
             if ($user) {
                 $output['user_view'] = view('user-view',compact('user'))->render();
                 $output['name'] = $user->name;

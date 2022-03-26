@@ -53,12 +53,14 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <link rel="stylesheet" href="{{ asset('css/dropify.min.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.7/dist/sweetalert2.min.css">
 <style>
     .required label:first-child::after {
         content: "* ";
         color: red;
         font-weight: bold;
     }
+
 </style>
 @endpush
 
@@ -67,6 +69,7 @@
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{ asset('js/dropify.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.7/dist/sweetalert2.min.js"></script>
 <script>
     let _token = "{{ csrf_token() }}";
 
@@ -126,15 +129,15 @@
         let url = "{{ route('user.store') }}";
         let id = $('#update_id').val();
         let method;
-        if(id){
+        if (id) {
             method = 'update';
-        }else{
+        } else {
             method = 'add';
         }
-        store_form_data(table,method,url,formData);
+        store_form_data(table, method, url, formData);
     });
 
-    function store_form_data(table,method,url,formData) {
+    function store_form_data(table, method, url, formData) {
         $.ajax({
             url: url,
             type: "POST",
@@ -154,13 +157,13 @@
                     });
                 } else {
                     flashMessage(data.status, data.message);
-                    if(data.status == 'success'){
-                        if(method == 'update'){
-                            table.ajax.reload(null,false);
-                            }else{
-                                table.ajax.reload();
-                            }
-                            $("#saveDataModal").modal('hide');
+                    if (data.status == 'success') {
+                        if (method == 'update') {
+                            table.ajax.reload(null, false);
+                        } else {
+                            table.ajax.reload();
+                        }
+                        $("#saveDataModal").modal('hide');
                     }
                 }
             },
@@ -170,7 +173,7 @@
         });
     }
 
-    $(document).on('click','.data_edit',function(){
+    $(document).on('click', '.data_edit', function () {
         let id = $(this).data('id');
         if (id) {
             $.ajax({
@@ -197,17 +200,19 @@
                     $('#storeForm #postal_code').val(data.postal_code);
                     $('#storeForm #address').val(data.address);
                     $('#storeForm #role_id').val(data.role_id);
-                    if(data.avatar){
-                        let avatar = "{{ asset('storage/User') }}/"+data.avatar;
-                        $('#storeForm .dropify-preview').css('display','block');
-                        $('#storeForm .dropify-render').html('<img src="'+avatar+'"/>');
+                    if (data.avatar) {
+                        let avatar = "{{ asset('storage/User') }}/" + data.avatar;
+                        $('#storeForm .dropify-preview').css('display', 'block');
+                        $('#storeForm .dropify-render').html('<img src="' + avatar + '"/>');
                         $('#storeForm #old_avatar').val(data.avatar);
                     }
                     $("#saveDataModal").modal('toggle', {
                         keyboard: false,
                         backdrop: 'static',
                     });
-                    $("#saveDataModal .modal-title").html('<i class="fa-solid fa-pen-to-square"></i><span> Edit '+data.name+'\'s data</span>');
+                    $("#saveDataModal .modal-title").html(
+                        '<i class="fa-solid fa-pen-to-square"></i><span> Edit ' + data.name +
+                        '\'s data</span>');
                     $("#saveDataModal #save-btn").text('Update');
                 },
                 error: function (xhr, ajaxOption, thrownError) {
@@ -217,7 +222,7 @@
         };
     });
 
-    $(document).on('click','.data_view',function(){
+    $(document).on('click', '.data_view', function () {
         let id = $(this).data('id');
         if (id) {
             $.ajax({
@@ -231,12 +236,13 @@
                 success: function (data) {
                     $('#view_data').html('');
                     $('#view_data').html(data.user_view);
-                    
+
                     $("#viewDataModal").modal('toggle', {
                         keyboard: false,
                         backdrop: 'static',
                     });
-                    $("#viewDataModal .modal-title").html('<i class="fa-solid fa-eye"></i><span> '+data.name+'\'s data</span>');
+                    $("#viewDataModal .modal-title").html('<i class="fa-solid fa-eye"></i><span> ' +
+                        data.name + '\'s data</span>');
                 },
                 error: function (xhr, ajaxOption, thrownError) {
                     console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
@@ -244,6 +250,42 @@
             });
         };
     });
+    $(document).on('click', '.data_delete', function () {
+        let id = $(this).data('id');
+        let name = $(this).data('name');
+        let url = "{{ route('user.delete') }}"
+        let row = table.row($(this).parent('tr'));
+        delete_data(id,url,table,row,name);
+    });
+
+    function delete_data(id,url,table,row,name) {
+        Swal.fire({
+            title: 'Are you sure to delete '+name+'\'s data?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url:url,
+                    type:"POST",
+                    data:{id:id,_token:_token},
+                    dataType:"JSON",
+                }).done(function(response){
+                    if (response.status == 'success') {
+                        Swal.fire('Deleted',response.message).then(function(){
+                            table.row(row).remove().draw(false);
+                        });
+                    }
+                }).fail(function(response){
+                    Swal.fire('Oopss...','Something went wrong','error');
+                })
+            }
+        })
+    }
 
     function upazilaList(district_id) {
         if (district_id) {

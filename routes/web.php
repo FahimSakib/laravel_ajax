@@ -52,4 +52,5 @@ Route::group(['prefix' => 'user', 'as' => 'user.'], function(){
     Route::post('list','CrudIndexController@userList')->name('list');
     Route::post('edit','CrudIndexController@userEdit')->name('edit');
     Route::post('show','CrudIndexController@userShow')->name('show');
+    Route::post('delete','CrudIndexController@userDestroy')->name('delete');
 });
