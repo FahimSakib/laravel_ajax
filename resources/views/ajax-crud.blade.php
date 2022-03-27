@@ -19,6 +19,42 @@
 
                 <div class="card-body">
                     <div class="row">
+                        <div class="col-md-12 my-3">
+                            <form method="post" id="form-filter">
+                                <div class="row">
+                                    <x-textbox col="col-md-3" labelName="Name" name="name"
+                                        placeholder="Enter your name" />
+                                    <x-textbox col="col-md-3" type="email" labelName="Email" name="email"
+                                        placeholder="Enter your email" />
+                                    <x-textbox col="col-md-3" labelName="Mobile Number" name="mobile_no"
+                                        placeholder="Enter your mobile number" />
+                                    <x-selectbox col="col-md-3" labelName="District" name="district_id"
+                                        onchange="upazilaList(this.value)">
+                                        @if ($districts)
+                                        @foreach ($districts as $district)
+                                        <option value="{{ $district->id }}">{{ $district->location_name }}</option>
+                                        @endforeach
+                                        @endif
+                                    </x-selectbox>
+                                    <x-selectbox col="col-md-3" labelName="Upazila" name="upazila_id" />
+                                    <x-selectbox col="col-md-3" labelName="Role" name="role_id">
+                                        @if ($roles)
+                                        @foreach ($roles as $role)
+                                        <option value="{{ $role->id }}">{{ $role->role_name }}</option>
+                                        @endforeach
+                                        @endif
+                                    </x-selectbox>
+                                    <x-selectbox col="col-md-3" labelName="Status" name="status">
+                                        <option value="1">Active</option>
+                                        <option value="0">InActive</option>
+                                    </x-selectbox>
+                                    <div class="form-group col-md-3" style="padding-top: 22px">
+                                        <button type="button" class="btn btn-success" id="btn-filter">Filter</button>
+                                        <button type="reset" class="btn btn-secondary" id="btn-reset">Reset</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                         <div class="col-md-12">
                             <table class="table table-bordered" id="dataTable">
                                 <thead>
