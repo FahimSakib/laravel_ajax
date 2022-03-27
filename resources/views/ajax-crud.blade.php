@@ -86,7 +86,8 @@
 @endsection
 
 @push('style')
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css" />
+{{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css" /> --}}
+<link rel="stylesheet" href="{{ asset('css/datatables.bundle7.0.8.css')}}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <link rel="stylesheet" href="{{ asset('css/dropify.min.css') }}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.7/dist/sweetalert2.min.css">
@@ -163,11 +164,13 @@
 @endpush
 
 @push('script')
+{{-- <script src="{{ asset('js/datatables.bundle7.0.8.js')}}"></script> --}}
 <script src="https://kit.fontawesome.com/92da958448.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 <script src="{{ asset('js/dropify.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.7/dist/sweetalert2.min.js"></script>
+
 <script>
     let _token = "{{ csrf_token() }}";
 
