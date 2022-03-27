@@ -123,7 +123,7 @@ class CrudIndexController extends Controller
               $row[] = $value->upazila->location_name;
               $row[] = $value->postal_code;
               $row[] = $value->email_verified_at ? '<span class="badge bg-success">Verified</span>' : '<span class="badge bg-danger">Unverified</span>';
-              $row[] = $value->status == 1 ? '<span class="badge bg-success">Active</span>' : '<span class="badge bg-danger">Inactive</span>';
+              $row[] = $this->changeStatus($value->status,$value->id);
               $row[] = $btnGroup;
 
               $data[] = $row;
@@ -139,6 +139,16 @@ class CrudIndexController extends Controller
         }
     }
 
+    private function changeStatus($status,$id){
+
+        $checked = $status == 1 ? 'checked' : '';
+
+        return  '<label class="switch">
+                <input type="checkbox" class="change_status"  data-id="'.$id.'" '.$checked.'>
+                <span class="slider round"></span>
+                </label>';
+    }
+
     private function avatar($avatar=null,$name){
         return !empty($avatar) ? '<img src="'.asset("storage/User/".$avatar).'" alt="'.$name.'" style="width:60px" />' : '<p>no image found</p>';
     }
@@ -150,6 +160,21 @@ class CrudIndexController extends Controller
         }
     }
     
+    public function userChnageStatus(Request $request){
+        if($request->ajax()){
+            
+            if ($request->id && $request->status) {
+                $result = User::find($request->id)->update(['status'=>$request->status]);
+                if($result){
+                    $output = ['status' => 'success', 'message' => 'User status updated successfully'];
+                }else{
+                    $output = ['status' => 'error', 'message' => 'User status can\'t be updated'];
+                }
+            }
+            return response()->json($output);
+        }
+    }
+
     public function userDestroy(Request $request){
         if($request->ajax()){
             $user = User::with('role','district','upazila')->find($request->id);

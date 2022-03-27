@@ -29,7 +29,7 @@ class CreateUsersTable extends Migration
             $table->string('postal_code');
             $table->text('address');
             $table->string('password');
-            $table->enum('status',['0','1'])->default('1')->comment="1=Active,0=Inactive";
+            $table->enum('status',['1','2'])->default('1')->comment="1=Active,2=Inactive";
             $table->rememberToken();
             $table->timestamps();
         });

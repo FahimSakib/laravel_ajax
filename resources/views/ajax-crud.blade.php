@@ -97,6 +97,68 @@
         font-weight: bold;
     }
 
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked+.slider {
+        background-color: #5cb85c;
+    }
+    input:not(:checked)+.slider {
+        background-color: #d9534f;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
 </style>
 @endpush
 
@@ -302,6 +364,38 @@
             });
         };
     });
+
+    $(document).on('change', '.change_status', function() {
+        let id = $(this).data('id');
+        let status;
+        if($(this).is(':checked')){
+            status = 1;
+        }else{
+            status = 2;
+        }
+        if (id && status) {
+            $.ajax({
+                url: "{{ route('user.change.status') }}",
+                type: "POST",
+                data: {
+                    id: id,
+                    status:status,
+                    _token: _token
+                },
+                dataType: "JSON",
+                success: function(data) {
+                    flashMessage(data.status, data.message);
+                    if(data.status == 'success'){
+                        table.ajax.reload(null,false);
+                    }
+                },
+                error: function(xhr, ajaxOption, thrownError) {
+                    console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
+                }
+            });
+        };
+    });
+
     $(document).on('click', '.data_delete', function() {
         let id = $(this).data('id');
         let name = $(this).data('name');
