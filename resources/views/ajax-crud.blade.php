@@ -46,7 +46,7 @@
                                     </x-selectbox>
                                     <x-selectbox col="col-md-3" labelName="Status" name="status">
                                         <option value="1">Active</option>
-                                        <option value="0">InActive</option>
+                                        <option value="0">In Active</option>
                                     </x-selectbox>
                                     <div class="form-group col-md-3" style="padding-top: 22px">
                                         <button type="button" class="btn btn-success" id="btn-filter">Filter</button>
@@ -133,11 +133,27 @@
             "ajax": {
                 "url": "{{ route('user.list') }}",
                 "type": "POST",
-                "data": function (data) {
-                    data._token = _token;
+                "data": function(data){
+                    data._token       = _token;
+                    data.name         = $('#form-filter #name').val();
+                    data.email        = $('#form-filter #email').val();
+                    data.mobile_no    = $('#form-filter #mobile_no').val();
+                    data.district_id  = $('#form-filter #district_id').val();
+                    data.upazila_id   = $('#form-filter #upazila_id').val();
+                    data.role_id      = $('#form-filter #role_id').val();
+                    data.status       = $('#form-filter #status').val();
                 }
             }
         });
+    });
+
+    $('#btn-filter').click(function(){
+        table.ajax.reload();
+    });
+
+    $('#btn-reset').click(function(){
+        $('#form-filter')[0].reset();
+        table.ajax.reload();
     });
 
 

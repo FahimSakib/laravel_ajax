@@ -59,6 +59,35 @@ class CrudIndexController extends Controller
         if($request->ajax()){
             $user = new User();
 
+            if(!empty($request->name)){
+                $user->setName($request->name);
+            }
+            
+            if(!empty($request->email)){
+                $user->setEmail($request->email);
+            }
+
+            if(!empty($request->mobile_no)){
+                $user->setMobileNo($request->mobile_no);
+            }
+
+            if(!empty($request->district_id)){
+                $user->setDistrictId($request->district_id);
+            }
+            
+            if(!empty($request->upazila_id)){
+                $user->setUpazilaId($request->upazila_id);
+            }
+            
+            if(!empty($request->role_id)){
+                $user->setRoleId($request->role_id);
+            }
+            
+            if(!empty($request->status)){
+                $user->setStatus($request->status);
+            }
+
+
             $user->setOrderValue($request->input('order.0.column'));
             $user->setDirValue($request->input('order.0.dir'));
             $user->setLengthValue($request->input('length'));
