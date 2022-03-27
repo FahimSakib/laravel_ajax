@@ -124,12 +124,15 @@ class User extends Authenticatable
     public function setOrderValue($orderValue){
         $this->orderValue = $orderValue;
     }
+
     public function setDirValue($dirValue){
         $this->dirValue = $dirValue;
     }
+
     public function setLengthValue($lengthValue){
         $this->lengthValue = $lengthValue;
     }
+    
     public function setStartValue($startValue){
         $this->startValue = $startValue;
     }
