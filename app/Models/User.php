@@ -135,6 +135,10 @@ class User extends Authenticatable
     }
 
     private function get_datatable_query(){
+
+        $this->column_order = ['users.id','users.name','','users.role_id','users.email','users.mobile_no','users.district_id',
+                                'users.upazila_id','users.postal_code','users.email_verified_at','users.status',''];
+
         $query = self::with(['role','district','upazila']);
 
         if(!empty($this->name)){
@@ -163,6 +167,12 @@ class User extends Authenticatable
 
         if(!empty($this->status)){
             $query->where('users.status',$this->status);
+        }
+
+        if(isset($this->orderValue) && isset($this->dirValue)){
+            $query->orderBy($this->column_order[$this->orderValue],$this->dirValue);
+        }else if(isset($this->order)){
+            $query->orderBy(key($this->order),$this->order[key($this->order)]);
         }
 
         return $query;
