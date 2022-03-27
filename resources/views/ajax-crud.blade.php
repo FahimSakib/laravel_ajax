@@ -29,7 +29,7 @@
                                     <x-textbox col="col-md-3" labelName="Mobile Number" name="mobile_no"
                                         placeholder="Enter your mobile number" />
                                     <x-selectbox col="col-md-3" labelName="District" name="district_id"
-                                        onchange="upazilaList(this.value)">
+                                        onchange="upazilaList(this.value,'form-filter')">
                                         @if ($districts)
                                         @foreach ($districts as $district)
                                         <option value="{{ $district->id }}">{{ $district->location_name }}</option>
@@ -111,7 +111,7 @@
 
     var table;
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         table = $('#dataTable').DataTable({
             "processing": true,
             "serverSide": true,
@@ -159,7 +159,7 @@
         $("#saveDataModal #save-btn").text(save);
     };
 
-    $(document).on('click', '#save-btn', function () {
+    $(document).on('click', '#save-btn', function() {
         let storeForm = document.getElementById('storeForm');
         let formData = new FormData(storeForm);
         let url = "{{ route('user.store') }}";
@@ -182,7 +182,7 @@
             contentType: false,
             processData: false,
             cache: false,
-            success: function (data) {
+            success: function(data) {
                 $('#storeForm').find('.is-invalid').removeClass('is-invalid');
                 $('#storeForm').find('.error').remove();
                 if (data.status == false) {
@@ -209,7 +209,7 @@
         });
     }
 
-    $(document).on('click', '.data_edit', function () {
+    $(document).on('click', '.data_edit', function() {
         let id = $(this).data('id');
         if (id) {
             $.ajax({
@@ -220,7 +220,7 @@
                     _token: _token
                 },
                 dataType: "JSON",
-                success: function (data) {
+                success: function(data) {
                     $('.password').parent().addClass('d-none');
                     $('.password_confirmation').parent().addClass('d-none');
                     $('#storeForm #update_id').val(data.id);
@@ -229,7 +229,7 @@
                     $('#storeForm #mobile_no').val(data.mobile_no);
                     $('#storeForm #mobile_no').val(data.mobile_no);
                     $('#storeForm #district_id').val(data.district_id);
-                    upazilaList(data.district_id);
+                    upazilaList(data.district_id,'storeForm');
                     setTimeout(() => {
                         $('#storeForm #upazila_id').val(data.upazila_id);
                     }, 1000);
@@ -258,7 +258,7 @@
         };
     });
 
-    $(document).on('click', '.data_view', function () {
+    $(document).on('click', '.data_view', function() {
         let id = $(this).data('id');
         if (id) {
             $.ajax({
@@ -269,7 +269,7 @@
                     _token: _token
                 },
                 dataType: "JSON",
-                success: function (data) {
+                success: function(data) {
                     $('#view_data').html('');
                     $('#view_data').html(data.user_view);
 
@@ -280,13 +280,13 @@
                     $("#viewDataModal .modal-title").html('<i class="fa-solid fa-eye"></i><span> ' +
                         data.name + '\'s data</span>');
                 },
-                error: function (xhr, ajaxOption, thrownError) {
+                error: function(xhr, ajaxOption, thrownError) {
                     console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
                 }
             });
         };
     });
-    $(document).on('click', '.data_delete', function () {
+    $(document).on('click', '.data_delete', function() {
         let id = $(this).data('id');
         let name = $(this).data('name');
         let url = "{{ route('user.delete') }}"
@@ -313,20 +313,20 @@
                         _token: _token
                     },
                     dataType: "JSON",
-                }).done(function (response) {
+                }).done(function(response) {
                     if (response.status == 'success') {
                         Swal.fire('Deleted', response.message).then(function () {
                             table.row(row).remove().draw(false);
                         });
                     }
-                }).fail(function (response) {
+                }).fail(function(response) {
                     Swal.fire('Oopss...', 'Something went wrong', 'error');
                 })
             }
         })
     }
 
-    function upazilaList(district_id) {
+    function upazilaList(district_id,form) {
         if (district_id) {
             $.ajax({
                 url: "{{ route('upazila.list') }}",
@@ -336,11 +336,11 @@
                     _token: _token
                 },
                 dataType: "JSON",
-                success: function (data) {
-                    $('#upazila_id').html(''),
-                        $('#upazila_id').html(data)
+                success: function(data) {
+                    $('#'+form+' #upazila_id').html('');
+                    $('#'+form+' #upazila_id').html(data);
                 },
-                error: function (xhr, ajaxOption, thrownError) {
+                error: function(xhr, ajaxOption, thrownError) {
                     console.log(thrownError + '\r\n' + xhr.statusText + '\r\n' + xhr.responseText);
                 }
             });
@@ -366,7 +366,7 @@
             "hideMethod": "fadeOut"
         }
 
-        switch (status) {
+        switch(status) {
             case 'success':
                 toastr.success(message, 'SUCCESS');
                 break;
